@@ -85,7 +85,7 @@ function MPD:send(action)
       return self:send(action)
     end
 
-    if line:match(string.format("^ACK", action)) then
+    if line:match("^ACK") then
       return { errormsg = line }
     end
 
