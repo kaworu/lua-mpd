@@ -136,51 +136,52 @@ function MPD:send(action)
 end
 
 function MPD:next()
-    self:send("next")
+    return self:send("next")
 end
 
 function MPD:previous()
-    self:send("previous")
+    return self:send("previous")
 end
 
 function MPD:stop()
-    self:send("stop")
+    return self:send("stop")
 end
 
 -- no need to check the new value, mpd will set the volume in [0,100]
 function MPD:volume_up(delta)
     local stats = self:send("status")
     local new_volume = tonumber(stats.volume) + delta
-    self:send(string.format("setvol %d", new_volume))
+
+    return self:send(string.format("setvol %d", new_volume))
 end
 
 function MPD:volume_down(delta)
-    self:volume_up(-delta)
+    return self:volume_up(-delta)
 end
 
 function MPD:toggle_random()
     local stats = self:send("status")
     if tonumber(stats.random) == 0 then
-        self:send("random 1")
+        return self:send("random 1")
     else
-        self:send("random 0")
+        return self:send("random 0")
     end
 end
 
 function MPD:toggle_repeat()
     local stats = self:send("status")
     if tonumber(stats["repeat"]) == 0 then
-        self:send("repeat 1")
+        return self:send("repeat 1")
     else
-        self:send("repeat 0")
+        return self:send("repeat 0")
     end
 end
 
 function MPD:toggle_play()
     if self:send("status").state == "stop" then
-        self:send("play")
+        return self:send("play")
     else
-        self:send("pause")
+        return self:send("pause")
     end
 end
 
