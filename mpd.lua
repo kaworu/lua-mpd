@@ -10,7 +10,7 @@
 -- use luasocket, with a persistant connection to the MPD server.
 --
 -- based on a netcat version from Steve Jothen <sjothen at gmail dot com>
--- (see http://github.com/otkrove/ion3-config/tree/master/mpd.lua)
+-- (see http://modeemi.fi/~tuomov/repos/ion-scripts-3/scripts/mpd.lua)
 --
 --
 -- Copyright (c) 2008-2009, Alexandre Perrin <kaworu@kaworu.ch>
