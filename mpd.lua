@@ -102,6 +102,15 @@ function MPD:send(action)
             self.socket:settimeout(self.timeout, 't')
             self.last_try = os.time()
             self.connected = self.socket:connect(self.hostname, self.port)
+
+            -- Read the server's hello message
+            if self.connected then
+                local line = self.socket:receive("*l")
+                if not line:match("^OK") then
+                    -- Invalid message?
+                    self.connected = false
+                end
+            end
             if self.connected and self.password then
                 self:send(string.format("password %s", self.password))
             end
