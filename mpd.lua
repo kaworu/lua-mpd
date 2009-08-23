@@ -91,6 +91,13 @@ end
 --              ...
 --      then the returned table is:
 --      { volume = 20, repeat = 0, random = 0, playlist = 599, ... }
+--
+-- if an error arise (bad password, connection failed etc.), a table with only
+-- the errormsg field is returned.
+--      Example: if there is no server running on host/port, then the returned
+--      table is:
+--              { errormsg = "could not connect" }
+--
 function MPD:send(action)
     local command = string.format("%s\n", action)
     local values = {}
@@ -102,23 +109,25 @@ function MPD:send(action)
             self.socket:settimeout(self.timeout, 't')
             self.last_try = os.time()
             self.connected = self.socket:connect(self.hostname, self.port)
+            if not self.connected then
+                return { errormsg = "could not connect" }
+            end
 
             -- Read the server's hello message
-            if self.connected then
-                local line = self.socket:receive("*l")
-                if not line:match("^OK") then
-                    -- Invalid message?
-                    self.connected = false
+            local line = self.socket:receive("*l")
+            if not line:match("^OK MPD") then -- Invalid hello message?
+                self.connected = false
+                return { errormsg = string.format("invalid hello message: %s", line) }
+            end
+
+            -- send the password if needed
+            if self.password then
+                local rsp = self:send(string.format("password %s", self.password))
+                if rsp.errormsg then
+                    return rsp
                 end
             end
-            if self.connected and self.password then
-                self:send(string.format("password %s", self.password))
-            end
         end
-    end
-
-    if not self.connected then
-        return { errormsg = "could not connect" }
     end
 
     self.socket:send(command)
