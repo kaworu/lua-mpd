@@ -118,7 +118,7 @@ function MPD:send(action)
     end
 
     if not self.connected then
-        return {}
+        return { errormsg = "could not connect" }
     end
 
     self.socket:send(command)
