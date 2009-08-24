@@ -119,6 +119,8 @@ function MPD:send(action)
             if not line:match("^OK MPD") then -- Invalid hello message?
                 self.connected = false
                 return { errormsg = string.format("invalid hello message: %s", line) }
+            else
+                _, _, self.version = string.find(line, "^OK MPD ([0-9.]+)")
             end
 
             -- send the password if needed
@@ -205,6 +207,18 @@ function MPD:toggle_play()
     else
         return self:send("pause")
     end
+end
+
+function MPD:protocol_version()
+    if not self.version then
+        -- send a "status" command to init the connection
+        local s = self:send("status")
+        if s.errormsg then
+            return nil, s
+        end
+    end
+
+    return self.version
 end
 
 -- vim:filetype=lua:tabstop=8:shiftwidth=4:expandtab:
