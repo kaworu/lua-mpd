@@ -211,8 +211,7 @@ end
 function MPD:seek(delta)
     local stats   = self:send("status")
     local current = stats.time:match("^(%d+):")
-    local wanted  = current + delta
-    return self:send(string.format("seekid %d %d", stats.songid, wanted))
+    return self:send(string.format("seek %d %d", stats.songid, current + delta))
 end
 
 function MPD:protocol_version()
