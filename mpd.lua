@@ -132,7 +132,7 @@ function MPD:send(action)
             end
         else
             local retry_sec = self.retry - (now - self.last_try)
-            return { errormsg = string.format("retrying connection in %d sec", retry_sec) }
+            return { errormsg = string.format("could not connect (retrying in %d sec)", retry_sec) }
         end
     end
 
@@ -175,7 +175,6 @@ end
 function MPD:volume_up(delta)
     local stats = self:send("status")
     local new_volume = tonumber(stats.volume) + delta
-
     return self:send(string.format("setvol %d", new_volume))
 end
 
@@ -217,7 +216,6 @@ function MPD:protocol_version()
             return nil, s
         end
     end
-
     return self.version
 end
 
