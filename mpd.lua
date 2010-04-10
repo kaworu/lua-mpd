@@ -208,6 +208,13 @@ function MPD:toggle_play()
     end
 end
 
+function MPD:seek(delta)
+    local stats   = self:send("status")
+    local current = stats.time:match("^(%d+):")
+    local wanted  = current + delta
+    return self:send(string.format("seekid %d %d", stats.songid, wanted))
+end
+
 function MPD:protocol_version()
     if not self.version then
         -- send a "status" command to init the connection
