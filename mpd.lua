@@ -142,6 +142,7 @@ function MPD:send(action)
         if not line then -- closed,timeout (mpd killed?)
             self.last_error = err
             self.connected = false
+            self.socket:close()
             return self:send(action)
         end
 
