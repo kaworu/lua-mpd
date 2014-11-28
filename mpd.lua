@@ -110,6 +110,7 @@ function MPD:send(action)
             if not self.connected then
                 return { errormsg = "could not connect" }
             end
+            self.last_error = nil
 
             -- Read the server's hello message
             local line = self.socket:receive("*l")
@@ -129,7 +130,7 @@ function MPD:send(action)
             end
         else
             local retry_sec = self.retry - (now - self.last_try)
-            return { errormsg = string.format("could not connect (retrying in %d sec)", retry_sec) }
+            return { errormsg = string.format("%s (retrying in %d sec)", self.last_error, retry_sec) }
         end
     end
 
@@ -137,8 +138,9 @@ function MPD:send(action)
 
     local line = ""
     while not line:match("^OK$") do
-        line = self.socket:receive("*l")
+        line, err = self.socket:receive("*l")
         if not line then -- closed,timeout (mpd killed?)
+            self.last_error = err
             self.connected = false
             return self:send(action)
         end
