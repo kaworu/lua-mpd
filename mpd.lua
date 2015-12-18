@@ -38,11 +38,8 @@
 -- OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF
 -- ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
-
-require("socket")
-
 -- Grab env
-local socket = socket
+local socket = require("socket")
 local string = string
 local tonumber = tonumber
 local setmetatable = setmetatable
@@ -62,7 +59,7 @@ MPD = {
 --      password: the server's password (default nil, no password)
 --      timeout:  time in sec to wait for connect() and receive() (default 1)
 --      retry:    time in sec to wait before reconnect if error (default 60)
-function new(settings)
+function MPD.new(settings)
     local client = {}
     if settings == nil then settings = {} end
 
@@ -224,5 +221,7 @@ function MPD:protocol_version()
     end
     return self.version
 end
+
+return MPD
 
 -- vim:filetype=lua:tabstop=8:shiftwidth=4:expandtab:
