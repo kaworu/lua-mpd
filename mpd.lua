@@ -40,10 +40,6 @@
 
 -- Grab env
 local socket = require("socket")
-local string = string
-local tonumber = tonumber
-local setmetatable = setmetatable
-local os = os
 
 -- Music Player Daemon Lua library.
 module("mpd")
