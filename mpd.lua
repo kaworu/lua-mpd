@@ -107,7 +107,7 @@ function MPD:send(action)
                 self.connected = false
                 return { errormsg = string.format("invalid hello message: %s", line) }
             else
-                _, _, self.version = string.find(line, "^OK MPD ([0-9.]+)")
+                self.version = string.match(line, "^OK MPD ([0-9.]+)")
             end
 
             -- send the password if needed
