@@ -41,11 +41,7 @@
 -- Grab env
 local socket = require("socket")
 
--- Music Player Daemon Lua library.
-module("mpd")
-
-MPD = {
-} MPD_mt = { __index = MPD }
+local MPD = {}
 
 -- create and return a new mpd client.
 -- the settings argument is a table with theses keys:
@@ -66,7 +62,7 @@ function MPD.new(settings)
     client.timeout  = settings.timeout or 1
     client.retry    = settings.retry or 60
 
-    setmetatable(client, MPD_mt)
+    setmetatable(client, { __index = MPD })
 
     return client
 end
