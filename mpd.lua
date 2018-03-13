@@ -12,7 +12,7 @@
 -- based on a netcat version from Steve Jothen <sjothen at gmail dot com>
 -- (see http://modeemi.fi/~tuomov/repos/ion-scripts-3/scripts/mpd.lua)
 --
--- Copyright (c) 2008-2015
+-- Copyright (c) 2008-2018
 --    Alexandre Perrin <alex@kaworu.ch>.  All rights reserved.
 --
 -- Redistribution and use in source and binary forms, with or without
