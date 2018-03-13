@@ -127,6 +127,7 @@ function MPD:send(action)
 
     local line = ""
     while not line:match("^OK$") do
+        local err
         line, err = self.socket:receive("*l")
         if not line then -- closed,timeout (mpd killed?)
             self.last_error = err
