@@ -11,7 +11,6 @@ description = {
     ]],
     license = "MIT",
     homepage = "https://github.com/kAworu/lua-mpd",
-    issues_url = "https://github.com/kAworu/lua-mpd/issues"
 }
 dependencies = {
     'luasocket'
