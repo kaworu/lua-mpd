@@ -19,7 +19,7 @@ local MPD = {}
 
 -- create and return a new mpd client.
 -- the settings argument is a table with theses keys:
---      hostname: the MPD's host (default localhost)
+--      hostname: the MPD's host (default "localhost")
 --      port:     MPD's port to connect to (default 6600)
 --      desc:     server's description (default hostname)
 --      password: the server's password (default nil, no password)
