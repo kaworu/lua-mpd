@@ -12,7 +12,7 @@
 -- based on a netcat version from Steve Jothen <sjothen at gmail dot com>
 -- (see http://modeemi.fi/~tuomov/repos/ion-scripts-3/scripts/mpd.lua)
 --
--- Copyright (c) 2008-2015
+-- Copyright (c) 2008-2018
 --    Alexandre Perrin <alex@kaworu.ch>.  All rights reserved.
 --
 -- Redistribution and use in source and binary forms, with or without
@@ -40,16 +40,8 @@
 
 -- Grab env
 local socket = require("socket")
-local string = string
-local tonumber = tonumber
-local setmetatable = setmetatable
-local os = os
 
--- Music Player Daemon Lua library.
-module("mpd")
-
-MPD = {
-} MPD_mt = { __index = MPD }
+local MPD = {}
 
 -- create and return a new mpd client.
 -- the settings argument is a table with theses keys:
@@ -70,7 +62,7 @@ function MPD.new(settings)
     client.timeout  = settings.timeout or 1
     client.retry    = settings.retry or 60
 
-    setmetatable(client, MPD_mt)
+    setmetatable(client, { __index = MPD })
 
     return client
 end
@@ -115,7 +107,7 @@ function MPD:send(action)
                 self.connected = false
                 return { errormsg = string.format("invalid hello message: %s", line) }
             else
-                _, _, self.version = string.find(line, "^OK MPD ([0-9.]+)")
+                self.version = string.match(line, "^OK MPD ([0-9.]+)")
             end
 
             -- send the password if needed
@@ -135,6 +127,7 @@ function MPD:send(action)
 
     local line = ""
     while not line:match("^OK$") do
+        local err
         line, err = self.socket:receive("*l")
         if not line then -- closed,timeout (mpd killed?)
             self.last_error = err
