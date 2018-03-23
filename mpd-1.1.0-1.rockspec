@@ -1,7 +1,10 @@
 package = "mpd"
 version = "1.1.0-1"
 source = {
-    url = "https://github.com/kAworu/lua-mpd"
+    url  = "git://github.com/kAworu/lua-mpd.git",
+    tag  = "v1.1.0",
+    dir  = "lua-mpd",
+    file = "mpd.lua"
 }
 description = {
     summary = "Minimalist MPD client library for Lua, using luasocket",
