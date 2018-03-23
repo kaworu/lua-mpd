@@ -9,8 +9,9 @@ description = {
         Control an MPD server efficiently without crappy synchronous
         shell mpc bindings
     ]],
+    license = "MIT",
     homepage = "https://github.com/kAworu/lua-mpd",
-    license = ""
+    issues_url = "https://github.com/kAworu/lua-mpd/issues"
 }
 dependencies = {
     'luasocket'
