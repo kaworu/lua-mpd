@@ -26,13 +26,17 @@ local MPD = {}
 --      timeout:  time in sec to wait for connect() and receive() (default 1)
 --      retry:    time in sec to wait before reconnect if error (default 60)
 function MPD.new(settings)
+
+    local env_host = os.getenv('MPD_HOST') or 'localhost'
+    local _, _, env_password, env_hostname = string.find(env_host, "([^@]+)@([a-zA-Z0-9.]+)")
+
     local client = {}
     if settings == nil then settings = {} end
 
-    client.hostname = settings.hostname or "localhost"
-    client.port     = settings.port or 6600
+    client.hostname = settings.hostname or env_hostname
+    client.port     = settings.port or os.getenv('MPD_PORT') or 6600
     client.desc     = settings.desc or client.hostname
-    client.password = settings.password
+    client.password = settings.password or env_password
     client.timeout  = settings.timeout or 1
     client.retry    = settings.retry or 60
 
