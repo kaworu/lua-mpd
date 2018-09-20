@@ -34,7 +34,7 @@ function MPD.new(settings)
     if settings == nil then settings = {} end
 
     client.hostname = settings.hostname or env_hostname
-    client.port     = settings.port or os.getenv('MPD_PORT') or 6600
+    client.port     = settings.port or tonumber(os.getenv('MPD_PORT')) or 6600
     client.desc     = settings.desc or client.hostname
     client.password = settings.password or env_password
     client.timeout  = settings.timeout or 1
