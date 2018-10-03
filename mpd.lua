@@ -18,6 +18,7 @@ local socket = require("socket")
 local MPD = {}
 
 local function get_params_from_env()
+    local port = tonumber(os.getenv('MPD_PORT')) or 6600
     local host = os.getenv('MPD_HOST') or 'localhost'
     local _, _, password, hostname = string.find(host, "([^@]+)@([a-zA-Z0-9.]+)")
     local port = tonumber(os.getenv('MPD_PORT'))
