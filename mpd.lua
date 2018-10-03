@@ -17,6 +17,17 @@ local socket = require("socket")
 
 local MPD = {}
 
+local function get_params_from_env()
+    local host = os.getenv('MPD_HOST') or 'localhost'
+    local _, _, password, hostname = string.find(host, "([^@]+)@([a-zA-Z0-9.]+)")
+    local port = tonumber(os.getenv('MPD_PORT'))
+    return {
+        hostname = hostname,
+        port = port,
+        password = password
+    }
+end
+
 -- create and return a new mpd client.
 -- the settings argument is a table with theses keys:
 --      hostname: the MPD's host (default "localhost")
@@ -27,16 +38,15 @@ local MPD = {}
 --      retry:    time in sec to wait before reconnect if error (default 60)
 function MPD.new(settings)
 
-    local env_host = os.getenv('MPD_HOST') or 'localhost'
-    local _, _, env_password, env_hostname = string.find(env_host, "([^@]+)@([a-zA-Z0-9.]+)")
+    local env = get_params_from_env()
 
     local client = {}
     if settings == nil then settings = {} end
 
-    client.hostname = settings.hostname or env_hostname
-    client.port     = settings.port or tonumber(os.getenv('MPD_PORT')) or 6600
+    client.hostname = settings.hostname or env.hostname
+    client.port     = settings.port or env.port or 6600
     client.desc     = settings.desc or client.hostname
-    client.password = settings.password or env_password
+    client.password = settings.password or env.password
     client.timeout  = settings.timeout or 1
     client.retry    = settings.retry or 60
 
