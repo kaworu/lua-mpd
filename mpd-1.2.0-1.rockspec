@@ -1,8 +1,8 @@
 package = "mpd"
-version = "1.1.0-1"
+version = "1.2.0-1"
 source = {
     url  = "git://github.com/kAworu/lua-mpd.git",
-    tag  = "v1.1.0",
+    tag  = "v1.2.0",
     dir  = "lua-mpd",
     file = "mpd.lua"
 }
